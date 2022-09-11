@@ -203,6 +203,15 @@ function ending(numb) {
     else return 'th'
 }
 
+function endTime(hours, min) {
+    // return now.toString().slice(16, 24);
+    let hour = '';
+    let minutes = '';
+    hours.toString().length === 1 ? hour += '0' + hours : hour = hours.toString();
+    min.toString().length === 1 ? minutes += '0' + min : minutes = min.toString();
+    return `${hour}:${minutes}`;
+}
+
 function addElement(elem) { // Добавление ноды самой задачи
     let todoNode = document.createElement('div');
     todoNode.classList.add('todo__node');
@@ -216,7 +225,7 @@ function addElement(elem) { // Добавление ноды самой зада
     document.querySelector('.todo').appendChild(todoNode);  // Можно вынести за функцию и не искать каждый раз
     document.querySelector('.todolist__count').innerHTML = arr.length + ' Tasks';
 
-    todoNode.querySelector('.checkbox').addEventListener('click', (event) => {
+    todoNode.querySelector('.checkbox').addEventListener('click', (event) => { // Сразу же навешиваю обработчик, при клике на который убираю элемент из local storage и убираю его из дом
         event.target.closest('.todo__node').classList.add('close');
         setTimeout(() => {
             event.target.closest('.todo').removeChild(event.target.closest('.todo__node'));
@@ -270,7 +279,7 @@ document.querySelector('.todo__add').addEventListener('click', myModal.open); //
 
 document.querySelector('.added').addEventListener('click', event => { // Добавление задач в массив и последующее добавление в дом
     let task = document.querySelector('.inputBtn').value;
-    let elem = {task: task, time: `${now.getHours()}:${now.getMinutes()}`};
+    let elem = {task: task, time: `${endTime(now.getHours(), now.getMinutes())}`};
         arr.push(elem);
         updateLocal(arr);
         myModal.close();
@@ -289,7 +298,6 @@ document.querySelector('.todolist__clear').addEventListener('click', event => { 
     })
     document.querySelector('.todolist__count').innerHTML = 0 + ' Tasks';
 })
-
 
 
 
